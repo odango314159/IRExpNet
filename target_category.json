@@ -1,0 +1,23 @@
+
+{
+    "target_category":{
+        "master_chef_can":"Food",
+        "bleach_cleanser":"Kitchen_items",
+        "cup":"Shape_items",
+        "toy_airplane":"Task_items",
+        "large_clamp":"Tools",
+        "racquetball":"Shape_items",
+        "cracker_box":"Food",
+        "mug":"Kitchen_items",
+        "large_marker":"Tools",
+        "lego_duplo":"Task_items",
+        "tomato_soup_can":"Food",
+        "mustard_bottle":"Kitchen_items",
+        "orange":"Shape_items",
+        "clamp":"Tools",
+        "peach":"Food",
+        "windex_bottle":"Kitchen_items",
+        "tennis_ball":"Shape_items",
+        "padlock":"Tools"
+    }
+}

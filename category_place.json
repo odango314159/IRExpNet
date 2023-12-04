@@ -1,0 +1,11 @@
+{
+    "category_place":{
+        "Shape_items":["drawer_left_place","put_in_bin"],
+        "Tools":["drawer_right_place","put_in_bin"],
+        "Food":["tray_a_place","put_on_table"],
+        "Kitchen_items":["container_a_place","put_on_table"],
+        "Orientation-based_items":["container_b_place","put_on_table"],
+        "Task_items":["bin_a_place","put_in_bin"],
+        "Unknown_object/Boss":["bin_b_place","put_in_bin"]
+    }
+}
