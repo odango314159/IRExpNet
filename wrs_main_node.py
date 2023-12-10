@@ -24,9 +24,7 @@ class WrsMainController(object):
     """
     WRSのシミュレーション環境内でタスクを実行するクラス
     """
-    IGNORE_LIST = ["pitcher_base", "spatula", 
-                   "nine_hole_peg_test", "tuna_fish_can", 
-                   "large_marker", "cracker_box", "small_marker"]
+    IGNORE_LIST = ["pitcher_base", "spatula", "nine_hole_peg_test", "tuna_fish_can", "large_marker", "cracker_box", "small_marker"]
     GRASP_TF_NAME = "object_grasping"
     GRASP_BACK_SAFE = {"z": 0.05, "xy": 0.3}
     GRASP_BACK = {"z": 0.05, "xy": 0.1}
@@ -170,7 +168,8 @@ class WrsMainController(object):
         最も把持が行えそうなbboxを一つ返す。
         """
         # objが一つもない場合は、Noneを返す
-        obj = cls.get_most_graspable_obj(obj_list)
+        obj = cls.get_most_graspab
+        le_obj(obj_list)
         if obj is None:
             return None
         return obj["bbox"]
@@ -571,7 +570,7 @@ class WrsMainController(object):
 
     def execute_task2b(self):
         """
-        task2bを実行する
+        62105295 加藤駿
         """
         rospy.loginfo("#### start Task 2b ####")
 
