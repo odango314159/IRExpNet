@@ -517,9 +517,9 @@ class WrsMainController(object):
                     self.exec_graspable_method(grasp_pos, label)
                     # ニュートラルへの姿勢変更
                     self.change_pose("all_neutral")
-                category_place, pose_tmp = self.get_pose_and_place(label = label)
+                category_place,pose_tmp = self.get_pose_and_place(label=label)
                 # binに入れる
-                #self.put_in_place("bin_a_place", "put_in_bin")
+                # self.put_in_place("bin_a_place", "put_in_bin")
                 self.put_in_place(category_place, pose_tmp)
 
     def get_seed(self, obj_list):
@@ -538,7 +538,7 @@ class WrsMainController(object):
             seed = 1
 
     def get_pose_and_place(self,
-                           label)->tuple:
+                           label) -> tuple:
         """
         62105295 加藤駿
         """
