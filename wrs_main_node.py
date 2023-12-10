@@ -24,7 +24,9 @@ class WrsMainController(object):
     """
     WRSのシミュレーション環境内でタスクを実行するクラス
     """
-    IGNORE_LIST = ["pitcher_base", "spatula", "nine_hole_peg_test", "tuna_fish_can", "large_marker", "cracker_box", "small_marker"]
+    IGNORE_LIST = ["pitcher_base", "spatula", 
+                   "nine_hole_peg_test", "tuna_fish_can", 
+                   "large_marker", "cracker_box", "small_marker"]
     GRASP_TF_NAME = "object_grasping"
     GRASP_BACK_SAFE = {"z": 0.05, "xy": 0.3}
     GRASP_BACK = {"z": 0.05, "xy": 0.1}
