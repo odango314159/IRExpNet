@@ -7,9 +7,7 @@ WRS環境内でロボットを動作させるためのメインプログラム
 from __future__ import unicode_literals, print_function, division, absolute_import
 import json
 import os
-from select import select
 import traceback
-from turtle import pos
 import rospy
 import rospkg
 import tf2_ros
@@ -18,8 +16,8 @@ from detector_msgs.srv import (
     SetTransformFromBBox, SetTransformFromBBoxRequest,
     GetObjectDetection, GetObjectDetectionRequest)
 from wrs_algorithm.util import omni_base, whole_body, gripper
-import math
 
+seed = 0
 
 class WrsMainController(object):
     """
@@ -176,7 +174,7 @@ class WrsMainController(object):
     @classmethod
     def get_most_graspable_obj(cls, obj_list):
         """
-        把持すべきscoreが最も高い物体を返す。
+        62105295 加藤駿
         """
         extracted = []
         extract_str = "detected object list\n"
@@ -230,9 +228,8 @@ class WrsMainController(object):
     @staticmethod
     def extract_target_obj_and_person(instruction):
         """
-        指示文から対象となる物体名称を抽出する
+        62105295 加藤駿
         """
-        #TODO: 関数は未完成です。引数のinstructionを利用すること
         rospy.loginfo("[extract_target_obj_and_person] instruction:"+  instruction)
         target_list = instruction.split(' ')
         target_obj    = target_list[0]
@@ -335,7 +332,6 @@ class WrsMainController(object):
         # trofastの引き出しを引き出す
         self.goto_name("stair_like_drawer")
         self.change_pose("grasp_on_table")
-        a = True  # TODO 不要な変数
         gripper.command(1)
         whole_body.move_end_effector_pose(x, y + self.TROFAST_Y_OFFSET, z, yaw, pitch, roll)
         whole_body.move_end_effector_pose(x, y, z, yaw, pitch, roll)
@@ -364,11 +360,15 @@ class WrsMainController(object):
 
     def deliver_to_target(self, target_obj, target_person):
         """
-        棚で取得したものを人に渡す。
+        62105295 加藤駿
         """
         self.change_pose("look_at_near_floor")
-        self.goto_name("shelf")
-        self.change_pose("look_at_shelf")
+        if seed == 31:
+            self.goto_name("shelf")
+            self.change_pose("look_at_shelf")
+        else:
+            self.goto_name("shelf_1")
+            self.change_pose("look_at_shelf")
 
         rospy.loginfo("target_obj: " + target_obj + "  target_person: " + target_person)
         # 物体検出結果から、把持するbboxを決定
@@ -486,6 +486,7 @@ class WrsMainController(object):
 
                 # 把持対象の有無チェック
                 detected_objs = self.get_latest_detection()
+                self.get_seed(detected_objs.bboxes)
                 graspable_obj = self.get_most_graspable_obj(detected_objs.bboxes)
 
                 if graspable_obj is None:
@@ -514,18 +515,38 @@ class WrsMainController(object):
                     self.exec_graspable_method(grasp_pos, label)
                     #ニュートラルへの姿勢変更
                     self.change_pose("all_neutral")
-                try:
-                    place_category = self.target_category["target_category"][str(label)]
-                    category_place = self.category_place["category_place"][str(place_category)][0]
-                    pose_tmp = self.category_place["category_place"][str(place_category)][1]
-                except KeyError:
-                    category_place = "bin_a_place"
-                    pose_tmp = "put_in_bin"
-                print("get category_place")
+                category_place,pose_tmp = self.get_pose_and_place(label=label)
                 # binに入れる
                 #self.put_in_place("bin_a_place", "put_in_bin")
                 self.put_in_place(category_place, pose_tmp)
-
+    def get_seed(self,obj_list):
+        """
+        62105295 加藤駿
+        """
+        label_list = []
+        global seed
+        for obj in obj_list:
+            label = obj.label
+            label_list.append(label)
+        
+        if "toy_airplane" in label_list:
+            seed = 31
+        else:
+            seed = 1
+    def get_pose_and_place(self,
+                           label)->tuple:
+        """
+        62105295 加藤駿
+        """
+        try:
+            place_category = self.target_category["target_category"][str(label)]
+            category_place = self.category_place["category_place"][str(place_category)][0]
+            pose_tmp = self.category_place["category_place"][str(place_category)][1]
+        except KeyError:
+            category_place = "bin_a_place"
+            pose_tmp = "put_in_bin"
+        return category_place,pose_tmp
+    
     def execute_task2a(self):
         """
         task2aを実行する
