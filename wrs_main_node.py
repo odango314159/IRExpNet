@@ -424,7 +424,7 @@ class WrsMainController(object):
         # xa配列はcurrent_stpに関係している
         waypoints = {"xa": [[pos_xa, 2.5, 45], [pos_xa, 2.9, 45], [pos_xa, 3.3, 90]], 
                      "xb": [[pos_xb, 2.5, 90], [pos_xb, 2.9, 90], [pos_xb, 3.3, 90]],
-                     "xc": [[pos_xc, 2.5, 135], [pos_xc, 2.9, 135], [pos_xc, 3.3, 90 ]]}
+                     "xc": [[pos_xc, 2.5, 135], [pos_xc, 2.9, 135], [pos_xc, 3.3, 90]]}
 
         # posがxa,xb,xcのラインに近い場合は候補から削除
         is_to_xa = True
