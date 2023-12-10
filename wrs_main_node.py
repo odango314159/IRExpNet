@@ -98,7 +98,7 @@ class WrsMainController(object):
         """
         try:
             # 4秒待機して各tfが存在すれば相対関係をセット
-            trans = self.tf_buffer.lookup_transform(parent, child, rospy.Time.now(),rospy.Duration(4.0))
+            trans = self.tf_buffer.lookup_transform(parent, child, rospy.Time.now(), rospy.Duration(4.0))
             return trans.transform
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException,
                 tf2_ros.ExtrapolationException):
@@ -187,7 +187,7 @@ class WrsMainController(object):
                 ignore_str += "- ignored  : " + info_str
             else:
                 score = cls.calc_score_bbox(obj)
-                extracted.append({"bbox": obj, "score": score, "label": obj.label, "y":obj.y})
+                extracted.append({"bbox": obj, "score": score, "label": obj.label, "y": obj.y})
                 extract_str += "- extracted: {:07.3f} ".format(score) + info_str
 
         rospy.loginfo(extract_str + ignore_str)
@@ -232,7 +232,7 @@ class WrsMainController(object):
         """
         62105295 加藤駿
         """
-        rospy.loginfo("[extract_target_obj_and_person] instruction:"+  instruction)
+        rospy.loginfo("[extract_target_obj_and_person] instruction:" + instruction)
         target_list = instruction.split(' ')
         target_obj = target_list[0]
         target_person = target_list[-1]
@@ -245,7 +245,8 @@ class WrsMainController(object):
 
         NOTE: tall_tableに対しての予備動作を生成するときはpreliminary="-y"と設定することになる。
         """
-        if preliminary not in ["+y", "-y", "+x", "-x"]: raise RuntimeError("unnkown graps preliminary type [{}]".format(preliminary))
+        if preliminary not in ["+y", "-y", "+x", "-x"]: 
+            raise RuntimeError("unnkown graps preliminary type [{}]".format(preliminary))
 
         rospy.loginfo("move hand to grasp (%.2f, %.2f, %.2f)", pos_x, pos_y, pos_z)
 
@@ -288,7 +289,7 @@ class WrsMainController(object):
         オブジェクトに寄るときは、y軸から近づく上面からは近づかない
         """
         grasp_pos.z += self.HAND_PALM_Z_OFFSET
-        rospy.loginfo("grasp_from_upper_side (%.2f, %.2f, %.2f)",grasp_pos.x, grasp_pos.y, grasp_pos.z)
+        rospy.loginfo("grasp_from_upper_side (%.2f, %.2f, %.2f)", grasp_pos.x, grasp_pos.y, grasp_pos.z)
         self.grasp_from_side(grasp_pos.x, grasp_pos.y, grasp_pos.z, -90, -160, 0, "-y")
 
     def exec_graspable_method(self, grasp_pos, label=""):
@@ -421,10 +422,9 @@ class WrsMainController(object):
         pos_xc = pos_xb + interval
 
         # xa配列はcurrent_stpに関係している
-        waypoints = {"xa": [[pos_xa, 2.5, 45],[pos_xa, 2.9, 45],[pos_xa, 3.3, 90]], 
+        waypoints = {"xa": [[pos_xa, 2.5, 45], [pos_xa, 2.9, 45], [pos_xa, 3.3, 90]], 
                      "xb": [[pos_xb, 2.5, 90], [pos_xb, 2.9, 90], [pos_xb, 3.3, 90]],
-                     "xc": [[pos_xc, 2.5, 135],[pos_xc, 2.9, 135],[pos_xc, 3.3, 90 ]]
-        }
+                     "xc": [[pos_xc, 2.5, 135], [pos_xc, 2.9, 135], [pos_xc, 3.3, 90 ]]}
 
         # posがxa,xb,xcのラインに近い場合は候補から削除
         is_to_xa = True
