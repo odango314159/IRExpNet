@@ -322,6 +322,7 @@ class WrsMainController(object):
         return True
 
     def put_in_place(self, place, into_pose):
+        """62103872 大貫誉"""
         # 指定場所に入れ、all_neutral姿勢を取る。
         # self.change_pose("look_at_near_floor")
         self.goto_name(place)
@@ -469,6 +470,7 @@ class WrsMainController(object):
         return x_line[current_stp]
 
     def execute_task1(self):
+        """62103872 大貫誉"""
         """
         task1を実行する
         """
